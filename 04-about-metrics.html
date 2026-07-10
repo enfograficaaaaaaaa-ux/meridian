@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Меридиан — О компании и показатели</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#3b6c7a;
+    --teal-50:rgba(59,108,122,.5);
+    --steel:#9caaad;
+    --near-black:#1a1a1a;
+    --off-white:#f9f9f9;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:#e7e7e7;}
+  body{font-family:'Roboto',sans-serif; color:var(--near-black);}
+  img{display:block; max-width:none;}
+  a{color:inherit; text-decoration:none;}
+  p{white-space:pre-wrap;}
+  .capitalize{text-transform:capitalize;}
+
+  .page{position:relative; width:1440px; margin:0 auto; background:var(--off-white); overflow:hidden;}
+
+  /* ---------- NAVBAR (shared) ---------- */
+  .navbar{background:var(--teal); display:flex; align-items:center; justify-content:center; padding:20px 0; width:1440px; box-sizing:border-box;}
+  .navbar__inner{display:flex; align-items:center; justify-content:space-between; width:1440px; padding:0 20px; box-sizing:border-box;}
+  .navbar__logo{display:flex; align-items:center; gap:6px; width:191px; flex-shrink:0;}
+  .navbar__logo img{display:block;}
+  .navbar__logo img:first-child{width:40px; height:40px; object-fit:contain;}
+  .navbar__right{display:flex; align-items:center; justify-content:space-between; width:974px;}
+  .navbar__links{display:flex; align-items:flex-end; gap:53px;}
+  .navbar__links a{font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; color:#fff; white-space:nowrap;}
+  .navbar__links a.is-muted{color:rgba(255,255,255,.6);}
+  .navbar__phone{font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; color:#fff; white-space:nowrap;}
+
+  /* ---------- HERO / PROCESS ---------- */
+  .content{padding-top:82px; display:flex; flex-direction:column;}
+  .hero-process{display:flex; flex-direction:column; gap:46px; align-items:center;}
+
+  .page-header{padding-left:198px; width:100%; display:flex; flex-direction:column; gap:46px;}
+  .title-breadcrumb{display:flex; flex-direction:column; gap:90px;}
+  .breadcrumb{display:flex; align-items:center; gap:4px;}
+  .breadcrumb a{font-family:'Montserrat',sans-serif; font-size:16px; text-transform:uppercase; color:#000;}
+  .breadcrumb a.current{color:var(--teal);}
+  .page-header h1{font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:var(--near-black); width:1008px;}
+  .page-header p.subtext{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:var(--near-black);}
+
+  .process-steps{width:1045px; display:flex; flex-direction:column;}
+  .process-row{display:flex; gap:20px; align-items:center; padding:40px 0;}
+  .process-row--first{border-bottom:1px solid var(--teal-50);}
+  .process-row--second{padding-top:40px; padding-bottom:20px;}
+  .process-card{width:335px; height:120px; display:flex; flex-direction:column; justify-content:space-between;}
+  .process-card__row{display:flex; align-items:center; justify-content:space-between; width:100%;}
+  .process-card__title{font-family:'Roboto',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; color:var(--near-black);}
+  .process-card__num{font-family:'Montserrat',sans-serif; font-weight:500; font-size:32px; color:var(--teal-50); text-shadow:0 1px 3px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.3);}
+  .process-card__desc{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(0,0,0,.8);}
+
+  .transparency{display:flex; gap:117px; align-items:flex-end;}
+  .transparency__text{display:flex; flex-direction:column; gap:20px; width:543px; color:var(--near-black);}
+  .transparency__text h2{font-family:'Montserrat',sans-serif; font-weight:600; font-size:32px; line-height:1.06; white-space:nowrap;}
+  .transparency__text p{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .btn-primary{
+    background:var(--teal); color:#fff; padding:20px 30px; border-radius:16px;
+    font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; white-space:nowrap;
+    box-shadow:0 16px 8px 0 rgba(12,12,13,.1), 0 4px 2px 0 rgba(12,12,13,.05);
+  }
+  .btn-outline{
+    border:1px solid var(--teal); color:var(--teal); padding:19px 29px; border-radius:16px;
+    font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; white-space:nowrap;
+    box-shadow:0 16px 32px 0 rgba(12,12,13,.4);
+  }
+
+  /* ---------- METRICS ---------- */
+  .metrics{background:var(--teal); padding:20px 0; display:flex; flex-direction:column; gap:90px; align-items:center; margin-top:190px;}
+  .metrics__grid-block{padding-left:198px; width:100%; display:flex; flex-direction:column; gap:90px;}
+  .metrics__grid-block h2{font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:#fff; white-space:pre;}
+  .metrics__grid{display:flex; flex-direction:column; gap:90px;}
+  .metrics__row{display:flex; align-items:center; justify-content:space-between; width:867px;}
+  .metrics__row--2{width:100%; padding:0 197px 0 178px;}
+  .stat{display:flex; flex-direction:column; gap:20px; align-items:center; text-align:center;}
+  .stat__number{
+    font-family:'Montserrat',sans-serif; font-weight:400; font-size:82px; line-height:1.06; white-space:nowrap;
+    background:linear-gradient(180deg, #fff 38.9%, var(--steel) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,.3)) drop-shadow(0 8px 12px rgba(0,0,0,.15));
+  }
+  .stat__number .pct{font-size:48px;}
+  .stat__desc{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(255,255,255,.5);}
+
+  .trusted{width:1045px; display:flex; flex-direction:column; gap:90px;}
+  .trusted h2{font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:#fff;}
+  .trusted__logos{display:flex; gap:12px; align-items:center;}
+  .trusted__logo{
+    background:#bdbdbd; padding:10px 20px; border-radius:3px;
+    font-family:'Montserrat',sans-serif; font-size:20px; line-height:1.06; text-transform:uppercase; color:rgba(0,0,0,.5); white-space:nowrap;
+  }
+
+  /* ---------- PROCUREMENT + CTA ---------- */
+  .procurement-cta{width:1045px; margin:190px auto 0; display:flex; flex-direction:column; gap:90px;}
+  .procurement h2{font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:var(--near-black); white-space:nowrap;}
+  .procurement__grid{display:flex; flex-direction:column; gap:90px; margin-top:80px;}
+  .procurement__row{display:flex; align-items:center; justify-content:space-between;}
+  .procurement__row--2{gap:87px; justify-content:flex-start;}
+  .term{border-left:1px solid var(--teal); padding:0 20px; display:flex; flex-direction:column; gap:43px; height:113px; justify-content:center;}
+  .term--short{height:105px;}
+  .term__title{font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; color:var(--teal); white-space:nowrap;}
+  .term__desc{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(0,0,0,.5);}
+
+  .about-cta{display:flex; gap:102px; align-items:flex-end; justify-content:flex-end;}
+  .about-cta__text{display:flex; flex-direction:column; gap:20px; width:513px; color:var(--near-black);}
+  .about-cta__text h2{font-family:'Montserrat',sans-serif; font-weight:600; font-size:32px; line-height:1.06; white-space:nowrap;}
+  .about-cta__text p{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .about-cta__buttons{display:flex; gap:20px; align-items:center;}
+
+  /* ---------- FOOTER (shared) ---------- */
+  .footer{background:var(--teal); width:1440px; height:480px; padding:20px 193px 0 198px; display:flex; flex-direction:column; gap:90px; align-items:flex-end; margin-top:190px;}
+  .footer__top{display:flex; align-items:flex-start; justify-content:space-between; width:100%;}
+  .footer__brand{display:flex; flex-direction:column; gap:20px; width:225px;}
+  .footer__logo{display:flex; gap:6px; align-items:center; width:191px; flex-shrink:0;}
+  .footer__logo img{display:block;}
+  .footer__logo img:first-child{width:40px; height:40px; object-fit:contain;}
+  .footer__tagline{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.364; letter-spacing:1.12px; color:#fff;}
+  .footer__col{display:flex; flex-direction:column; gap:24px;}
+  .footer__col-title{font-family:'Roboto',sans-serif; font-size:16px; color:#fff;}
+  .footer__nav{display:flex; flex-direction:column; gap:20px;}
+  .footer__nav a{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6);}
+  .footer__legal{display:flex; flex-direction:column; gap:20px; color:rgba(255,255,255,.6); font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .footer__legal-title{color:#fff;}
+  .footer__address-block{display:flex; flex-direction:column; gap:8px;}
+  .footer__address-label{color:rgba(255,255,255,.8); font-family:'Roboto',sans-serif; font-size:16px;}
+  .footer__address{color:rgba(255,255,255,.6); font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .footer__bottom{border-top:.5px solid rgba(255,255,255,.6); width:1099px; padding:20px 0; display:flex; align-items:center; justify-content:space-between;}
+  .footer__copy{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6);}
+  .footer__bottom-links{display:flex; gap:67px; align-items:center;}
+  .footer__bottom-links a{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6); border-bottom:1px solid rgba(255,255,255,.6);}
+
+  /* ---------- REQUEST MODAL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(12,12,13,.55);
+    align-items:center; justify-content:center; z-index:1000; padding:20px;
+  }
+  .modal-overlay.is-open{display:flex;}
+  .modal-request{
+    position:relative; width:692px; max-width:100%; min-height:560px; background:var(--teal); border-radius:20px;
+    padding:40px 48px; box-shadow:0 16px 32px rgba(12,12,13,.4); color:#fff;
+    max-height:90vh; overflow-y:auto; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .modal-close{
+    position:absolute; top:24px; right:24px; width:28px; height:28px; border:none; background:transparent;
+    color:#fff; font-size:22px; line-height:1; cursor:pointer; opacity:.8;
+  }
+  .modal-close:hover{opacity:1;}
+  .modal-title{font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px;}
+  .modal-subtitle{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(255,255,255,.8); margin-bottom:28px;}
+  .modal-row{display:flex; gap:40px; margin-bottom:24px;}
+  .modal-field{flex:1; display:flex; flex-direction:column; gap:10px;}
+  .modal-field--full{margin-bottom:20px;}
+  .modal-field label{font-family:'Roboto',sans-serif; font-size:14px; color:rgba(255,255,255,.7);}
+  .modal-field input, .modal-field textarea{
+    background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.5);
+    color:#fff; font-family:'Roboto',sans-serif; font-size:16px; padding:6px 0; outline:none; resize:none;
+  }
+  .modal-field textarea{min-height:70px;}
+  .modal-field input::placeholder, .modal-field textarea::placeholder{color:rgba(255,255,255,.45);}
+  .modal-field input:focus, .modal-field textarea:focus{border-bottom-color:#fff;}
+  .modal-footer{display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:24px; margin-top:8px;}
+  .modal-checkbox{display:flex; align-items:flex-start; gap:8px; font-family:'Roboto',sans-serif; font-size:12px; line-height:1.4; color:rgba(255,255,255,.6); cursor:pointer; flex:1;}
+  .modal-checkbox input{margin-top:2px; flex-shrink:0;}
+  .modal-submit{
+    flex-shrink:0; align-self:center; background:#fff; color:var(--teal); border:none; border-radius:16px;
+    padding:16px 34px; font-family:'Roboto',sans-serif; font-size:16px; cursor:pointer; white-space:nowrap;
+    box-shadow:0 8px 6px rgba(0,0,0,.15), 0 4px 2px rgba(0,0,0,.3);
+  }
+  .modal-submit:hover{opacity:.92;}
+
+  .modal-success{
+    width:692px; max-width:100%; min-height:560px; background:var(--teal); border-radius:20px; padding:56px 40px; text-align:center; color:#fff;
+    box-shadow:0 16px 32px rgba(12,12,13,.4); box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .modal-success__icon{
+    width:64px; height:64px; border-radius:50%; background:#3fb27f; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 24px;
+  }
+  .modal-success h3{font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px;}
+  .modal-success p{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(255,255,255,.8); margin-bottom:28px;}
+  .modal-success__btn{
+    background:#fff; border:none; color:var(--teal); border-radius:16px; padding:14px 34px;
+    font-family:'Roboto',sans-serif; font-size:16px; cursor:pointer;
+    box-shadow:0 8px 6px rgba(0,0,0,.15), 0 4px 2px rgba(0,0,0,.3);
+  }
+  .modal-success__btn:hover{opacity:.92;}
+
+  @media (max-width:640px){
+    .modal-row{flex-direction:column; gap:16px;}
+  }
+
+
+  /* ---------- BUTTON INTERACTION STATES ---------- */
+  .btn, .btn-primary, .service-card__btn, .port-card__btn,
+  .contact__submit, .modal-submit {
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+
+  .btn--primary:hover, .btn-primary:hover, .service-card__btn:hover, .port-card__btn:hover,
+  .contact__submit:hover, .modal-submit:hover {
+    background:#fff;
+    color:var(--teal);
+    border-color:var(--teal);
+    box-shadow:0 4px 10px rgba(12,12,13,.15);
+  }
+
+  .btn--primary:active, .btn-primary:active, .service-card__btn:active, .port-card__btn:active,
+  .contact__submit:active, .modal-submit:active {
+    background:#fff;
+    color:rgba(59,108,122,.4);
+    border-color:rgba(59,108,122,.3);
+    box-shadow:none;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===================== NAVBAR ===================== -->
+  <div class="navbar">
+    <div class="navbar__inner">
+      <a href="index.html" class="navbar__logo">
+        <img src="https://www.figma.com/api/mcp/asset/855922f6-06c0-41bb-b504-f3233798fac6" alt="Меридиан">
+        <img src="https://www.figma.com/api/mcp/asset/f3679cc5-b995-452f-b8c2-7ab34e8875fa" alt="Меридиан" style="height:22.235px;width:141px;">
+      </a>
+      <div class="navbar__right">
+        <div class="navbar__links">
+          <a href="index.html" class="capitalize">главная</a>
+          <a href="02-services.html" class="capitalize">услуги</a>
+          <a href="03-ports-geography.html" class="capitalize">география</a>
+          <a href="04-about-metrics.html" class="is-muted capitalize">преимущества</a>
+          <a href="05-cases.html" class="capitalize">кейсы</a>
+          <a href="06-contacts.html" class="capitalize">контакты</a>
+        </div>
+        <a class="navbar__phone" href="tel:+78126158816">+7 (812) 615-88-16</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONTENT ===================== -->
+  <div class="content">
+    <div class="hero-process">
+
+      <div class="page-header">
+        <div class="title-breadcrumb">
+          <div class="breadcrumb">
+            <a href="index.html">главная/</a>
+            <a class="current">преимущества/</a>
+          </div>
+          <h1>Полный комплекс ВЭД под одной ответственностью</h1>
+        </div>
+        <p class="subtext">Мы работаем на опережение: проблема, решённая до прихода судна, не превращается в демередж и простой</p>
+      </div>
+
+      <div class="process-steps">
+        <div class="process-row process-row--first">
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Анализ до прибытия</span><span class="process-card__num">01</span></div>
+            <p class="process-card__desc">Проверка документов ещё до прихода партий ФРОВ / ВЕТ</p>
+          </div>
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Россельхознадзор</span><span class="process-card__num">02</span></div>
+            <p class="process-card__desc">Контроль качества и температурного режима при отборе проб</p>
+          </div>
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Мониторинг рисков</span><span class="process-card__num">03</span></div>
+            <p class="process-card__desc">Оперативное решение проблем при ИДК, осмотрах и досмотрах</p>
+          </div>
+        </div>
+        <div class="process-row process-row--second">
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Свой штат экспедиторов</span><span class="process-card__num">04</span></div>
+            <p class="process-card__desc">На каждом терминале Балтийской и СПб таможен</p>
+          </div>
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Пул рефрижераторов</span><span class="process-card__num">05</span></div>
+            <p class="process-card__desc">Развитый парк наёмных рефов под любые объёмы</p>
+          </div>
+          <div class="process-card">
+            <div class="process-card__row"><span class="process-card__title">Контроль доставки</span><span class="process-card__num">06</span></div>
+            <p class="process-card__desc">Доставка на РЦ в согласованные тайм-слоты</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="transparency" style="margin-left:198px; align-self:flex-start;">
+        <div class="transparency__text">
+          <h2>Прозрачность на каждом этапе</h2>
+          <p>Понятная себестоимость без скрытых расходов и непредвиденных доплат</p>
+        </div>
+        <a href="06-contacts.html" class="btn-primary" data-open-modal>Получить расчёт с учетом этих условий</a>
+      </div>
+    </div>
+
+    <!-- ===================== METRICS ===================== -->
+    <div class="metrics">
+      <div class="metrics__grid-block">
+        <h2>Показатели, на которые<br>можно опереться</h2>
+        <div class="metrics__grid">
+          <div class="metrics__row">
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="828">0</span></p>
+              <p class="stat__desc">деклараций<br>в среднем в месяц - 2025 год</p>
+            </div>
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="75">0</span><span class="pct">%</span></p>
+              <p class="stat__desc">деклараций<br>выпускается в день подачи</p>
+            </div>
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="1896" data-thousand="1">0</span></p>
+              <p class="stat__desc">контейнеров<br>оформляется в среднем в месяц</p>
+            </div>
+          </div>
+          <div class="metrics__row metrics__row--2">
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="98.4" data-decimals="1">0</span><span class="pct">%</span></p>
+              <p class="stat__desc">грузов выпускаются<br>в технологический срок</p>
+            </div>
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="1084" data-thousand="1">0</span></p>
+              <p class="stat__desc">деклараций в среднем<br>в месяц - 2026 год (рост)</p>
+            </div>
+            <div class="stat">
+              <p class="stat__number"><span class="num-value" data-target="9934" data-thousand="1">0</span></p>
+              <p class="stat__desc">деклараций<br>за 2025 год</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trusted">
+        <h2>Нам доверяют</h2>
+        <div class="trusted__logos">
+          <div class="trusted__logo">АО "Гранд-Трейд" (Магнит)</div>
+          <div class="trusted__logo">АО "Арвиай" (X5 Group)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== PROCUREMENT + CTA ===================== -->
+    <div class="procurement-cta">
+      <div class="procurement">
+        <h2>Условия, под которыми подпишется ваш<br>отдел закупок</h2>
+        <div class="procurement__grid">
+          <div class="procurement__row">
+            <div class="term" style="width:291px;">
+              <p class="term__title">Менеджер 24/7</p>
+              <p class="term__desc">Операционный, линейный<br>и стратегический уровни связи</p>
+            </div>
+            <div class="term" style="width:271px;">
+              <p class="term__title">Интеграция в CRM/ERP</p>
+              <p class="term__desc">Своевременное внесение<br>данных в системы сети</p>
+            </div>
+            <div class="term" style="width:275px;">
+              <p class="term__title">Поддержка ЭДО</p>
+              <p class="term__desc">Отчёты в тайм-лайнах сети без<br>задержек документооборота</p>
+            </div>
+          </div>
+          <div class="procurement__row procurement__row--2">
+            <div class="term" style="width:319px;">
+              <p class="term__title">Услуги в порту</p>
+              <p class="term__desc">Взвешивание, перетарка, переборка<br>партий на терминале</p>
+            </div>
+            <div class="term" style="width:277px;">
+              <p class="term__title">Фиксация ставок</p>
+              <p class="term__desc">Предсказуемая себестоимость,<br>закреплённая в КП</p>
+            </div>
+            <div class="term term--short" style="width:271px;">
+              <p class="term__title">Тайм-слоты на РЦ</p>
+              <p class="term__desc">Доставка в согласованное окно</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-cta">
+        <div class="about-cta__text">
+          <h2>Хотите такие же показатели?</h2>
+          <p>Опишите задачу - пришлём расчёт стоимости и сроков в течение рабочего дня</p>
+        </div>
+        <div class="about-cta__buttons">
+          <a href="06-contacts.html" class="btn-primary" data-open-modal>Запросить расчёт</a>
+          <a href="tel:+78126158816" class="btn-outline">+7 (812) 615-88-16</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <div class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">
+          <img src="https://www.figma.com/api/mcp/asset/855922f6-06c0-41bb-b504-f3233798fac6" alt="Меридиан">
+          <img src="https://www.figma.com/api/mcp/asset/f3679cc5-b995-452f-b8c2-7ab34e8875fa" alt="Меридиан" style="height:22.235px;width:141px;">
+        </a>
+        <p class="footer__tagline">Мультимодальные перевозки,<br>внутрипортовое экспедирование<br>и таможенная очистка грузов</p>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Меридиан</p>
+        <div class="footer__nav">
+          <a href="04-about-metrics.html">О компании</a>
+          <a href="02-services.html">Услуги</a>
+          <a href="05-cases.html">Кейсы</a>
+          <a href="index.html">Документы</a>
+          <a href="06-contacts.html">Контакты</a>
+        </div>
+      </div>
+
+      <div class="footer__col" style="width:200px;">
+        <div class="footer__legal">
+          <p class="footer__legal-title">Реквизиты</p>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <p>ИНН 7806179910</p>
+            <p>ОГРН 1157847220376</p>
+            <p>КПП 200401001</p>
+          </div>
+        </div>
+        <div class="footer__address-block">
+          <p class="footer__address-label">Юридический адрес:</p>
+          <p class="footer__address">366017, Чеченская Республика, м.р-н Грозненский с.п.Терское, с. Терское, ул. Подгорная, двлд. 35</p>
+        </div>
+      </div>
+
+      <div class="footer__col" style="width:155px;">
+        <p class="footer__col-title">Связаться</p>
+        <div class="footer__nav">
+          <a href="tel:+78126158816">+7 (812) 615-88-16</a>
+          <a href="mailto:info@mrdn.spb.ru">info@mrdn.spb.ru</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2026 ООО «Меридиан». Все права защищены</p>
+      <div class="footer__bottom-links">
+        <a>Политика конфинденциальности</a>
+        <a>Публичная оферта</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- ===================== REQUEST MODAL ===================== -->
+  <div class="modal-overlay" id="requestModalOverlay">
+    <div class="modal-request">
+      <button type="button" class="modal-close" id="requestModalClose" aria-label="Закрыть">&times;</button>
+      <p class="modal-title">Оставьте заявку</p>
+      <p class="modal-subtitle">Уточним детали и пришлём предложение по стоимости и срокам</p>
+      <form id="requestForm">
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="reqCompany">Компания</label>
+            <input id="reqCompany" type="text" placeholder='ООО &quot;Ваша компания&quot;'>
+          </div>
+          <div class="modal-field">
+            <label for="reqName">Имя</label>
+            <input id="reqName" type="text" placeholder="Иван Петров">
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="reqPhone">Телефон</label>
+            <input id="reqPhone" type="tel" placeholder="+7 (___) ___-__-__">
+          </div>
+          <div class="modal-field">
+            <label for="reqEmail">Почта</label>
+            <input id="reqEmail" type="email" placeholder="name@company.ru">
+          </div>
+        </div>
+        <div class="modal-field modal-field--full">
+          <label for="reqComment">Комментарий - тип груза, маршрут, объём</label>
+          <textarea id="reqComment" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+          <label class="modal-checkbox">
+            <input type="checkbox" required>
+            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+          </label>
+          <button type="submit" class="modal-submit">Оставить заявку</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== SUCCESS MODAL ===================== -->
+  <div class="modal-overlay" id="successModalOverlay">
+    <div class="modal-success">
+      <div class="modal-success__icon">&#10003;</div>
+      <h3>Заявка отправлена</h3>
+      <p>Мы получили вашу заявку и свяжемся с вами</p>
+      <button type="button" class="modal-success__btn" id="successModalClose">Понятно</button>
+    </div>
+  </div>
+
+
+  <script>
+    (function(){
+      var requestOverlay = document.getElementById('requestModalOverlay');
+      var successOverlay = document.getElementById('successModalOverlay');
+      var form = document.getElementById('requestForm');
+
+      function openRequest(e){
+        if(e) e.preventDefault();
+        requestOverlay.classList.add('is-open');
+      }
+      function closeRequest(){ requestOverlay.classList.remove('is-open'); }
+      function openSuccess(){ successOverlay.classList.add('is-open'); }
+      function closeSuccess(){ successOverlay.classList.remove('is-open'); }
+
+      document.querySelectorAll('[data-open-modal]').forEach(function(el){
+        el.addEventListener('click', openRequest);
+      });
+
+      document.getElementById('requestModalClose').addEventListener('click', closeRequest);
+      document.getElementById('successModalClose').addEventListener('click', closeSuccess);
+
+      [requestOverlay, successOverlay].forEach(function(overlay){
+        overlay.addEventListener('click', function(e){
+          if(e.target === overlay){ overlay.classList.remove('is-open'); }
+        });
+      });
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        closeRequest();
+        form.reset();
+        openSuccess();
+      });
+
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){ closeRequest(); closeSuccess(); }
+      });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      function formatNumber(value, decimals, useThousand){
+        var fixed = value.toFixed(decimals);
+        var parts = fixed.split('.');
+        var intPart = parts[0];
+        if(useThousand){
+          intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+        }
+        return decimals > 0 ? intPart + ',' + parts[1] : intPart;
+      }
+
+      function animateValue(el){
+        var target = parseFloat(el.getAttribute('data-target'));
+        var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+        var useThousand = el.getAttribute('data-thousand') === '1';
+        var duration = 1800;
+        var startTime = null;
+
+        function step(timestamp){
+          if(!startTime) startTime = timestamp;
+          var progress = Math.min((timestamp - startTime) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          var current = target * eased;
+          el.textContent = formatNumber(current, decimals, useThousand);
+          if(progress < 1){
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = formatNumber(target, decimals, useThousand);
+          }
+        }
+        requestAnimationFrame(step);
+      }
+
+      var numberEls = document.querySelectorAll('.num-value');
+      if(!numberEls.length) return;
+
+      if(!('IntersectionObserver' in window)){
+        numberEls.forEach(animateValue);
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            animateValue(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      numberEls.forEach(function(el){ observer.observe(el); });
+    })();
+  </script>
+
+</body>
+</html>
