@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Меридиан — Портовая логистика под ключ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#3b6c7a;
+    --steel:#9caaad;
+    --near-black:#1a1a1a;
+    --black:#000000;
+    --off-white:#f9f9f9;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:#e7e7e7;}
+  body{font-family:'Roboto',sans-serif; color:var(--near-black);}
+  img{display:block; max-width:none;}
+  a{color:inherit; text-decoration:none;}
+  p{white-space:pre-wrap;}
+  .uppercase{text-transform:uppercase;}
+  .capitalize{text-transform:capitalize;}
+
+  .page{
+    position:relative;
+    width:1440px;
+    margin:0 auto;
+    background:var(--off-white);
+    overflow:hidden;
+  }
+
+  /* Scroll indicator: x=calc(25%+71px) top:2469 w:37 h:40, per Figma metadata */
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    background:var(--teal);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px 0;
+    width:1440px;
+    box-sizing:border-box;
+  }
+  .navbar__inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:1440px;
+    padding:0 20px;
+    box-sizing:border-box;
+  }
+  .navbar__logo{display:flex; align-items:center; gap:6px; width:191px; flex-shrink:0;}
+  .navbar__logo img{display:block;}
+  .navbar__logo img:first-child{width:40px; height:40px; object-fit:contain;}
+  .navbar__right{display:flex; align-items:center; justify-content:space-between; width:974px;}
+  .navbar__links{display:flex; align-items:flex-end; gap:53px;}
+  .navbar__links a{font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; color:#fff; white-space:nowrap;}
+  .navbar__links a.is-muted{color:rgba(255,255,255,.6);}
+  .navbar__phone{font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; color:#fff; white-space:nowrap;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    width:1440px;
+    height:800px;
+    background:linear-gradient(180deg,#294c56 0%,#3b6c7a 55%,#1f3940 100%);
+    overflow:hidden;
+  }
+  .hero__video{
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
+  }
+  .hero__video-overlay{
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(15,30,34,.35) 0%, rgba(15,30,34,.25) 45%, rgba(15,30,34,.65) 100%);
+  }
+  .hero__content{ position:relative; z-index:2;
+    display:flex; flex-direction:column; gap:196px; align-items:flex-start;
+  }
+  .hero__text-block{
+    display:flex; flex-direction:column; gap:36px; align-items:flex-start;
+    padding-left:198px;
+  }
+  .hero__heading-subtext{display:flex; flex-direction:column; gap:26px; width:640px; color:#fff;}
+  .hero__heading{font-family:'Montserrat',sans-serif; font-weight:600;}
+  .hero__heading .l1{font-size:44px; line-height:1.06; white-space:nowrap;}
+  .hero__heading .l2{font-size:36px; line-height:1.06;}
+  .hero__subtext{font-family:'Roboto',sans-serif; font-weight:400; font-size:16px; line-height:1.36;}
+  .hero__cta{display:flex; gap:20px; align-items:center; width:100%;}
+  .btn{
+    display:flex; align-items:center; justify-content:center;
+    padding:20px 30px; border-radius:16px;
+    font-family:'Montserrat',sans-serif; font-weight:500; font-size:16px; white-space:nowrap;
+    box-shadow:0 16px 32px 0 rgba(12,12,13,.4);
+    cursor:pointer;
+  }
+  .btn--primary{background:var(--teal); color:#fff;}
+  .btn--outline{background:transparent; color:#fff; border:1px solid #fff;}
+  .btn--roboto{font-family:'Roboto',sans-serif; font-weight:400;}
+
+  /* ---------- SECTION SHARED ---------- */
+  .section{padding-left:198px; width:1440px;}
+  .section-eyebrow{
+    font-family:'Montserrat',sans-serif; font-weight:400; font-size:16px; text-transform:uppercase; color:var(--teal);
+  }
+  .section-eyebrow--light{color:var(--steel);}
+  .section-heading{
+    font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:var(--near-black);
+  }
+  .section-heading--white{color:#fff;}
+
+  /* ---------- COMPANY BLOCK ---------- */
+  .company{
+    height:534px; display:flex; flex-direction:column; padding-left:198px;
+    margin-top:128px;
+  }
+  .company__intro{width:747px; display:flex; flex-direction:column; gap:20px;}
+  .company__heading{width:1008px;}
+  .company__row{display:flex; gap:267px; align-items:center; width:100%;}
+  .company__services{
+    display:flex; flex-direction:column; gap:36px; margin-left:25px; width:366px;
+  }
+  .company__services li{
+    list-style:none; position:relative; padding-left:31px;
+    font-family:'Roboto',sans-serif; font-weight:500; font-size:20px; color:var(--near-black);
+  }
+  .company__services li::before{
+    content:""; position:absolute; left:0; top:4px; width:15px; height:15px;
+    background:var(--teal); border-radius:3px;
+  }
+  .company__image-block{position:relative; width:465px; height:344px;}
+  .company__image-block img.img-big{
+    position:absolute; left:130px; top:0; width:335px; height:344px; object-fit:cover;
+    box-shadow:0 8px 12px 6px rgba(0,0,0,.15), 0 4px 4px 0 rgba(0,0,0,.3);
+  }
+  .company__image-block img.img-small{
+    position:absolute; left:0; top:169px; width:170px; height:175px; object-fit:cover;
+    box-shadow:0 8px 12px 6px rgba(0,0,0,.15), 0 4px 4px 0 rgba(0,0,0,.3);
+  }
+
+  /* ---------- SERVICES INTRO (Blog/Services) ---------- */
+  .services-intro{height:617px; padding-left:198px; display:flex; flex-direction:column; margin-top:128px;}
+  .services-intro__block{display:flex; flex-direction:column; gap:36px;}
+  .services-intro__text{display:flex; flex-direction:column; gap:20px;}
+  .services-intro__subtext{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:var(--near-black);}
+
+  /* Testimonial / service cards row — absolutely positioned per design */
+  .cards-overlay{
+    position:absolute; left:121px; top:1819px; width:1197px;
+    display:flex; flex-direction:column; gap:36px; align-items:center;
+  }
+  .cards-overlay__row{display:flex; gap:36px; align-items:center; width:100%;}
+  .service-card{
+    position:relative; width:375px; height:240px; border-radius:20px; overflow:hidden;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:20px;
+    box-shadow:0 16px 32px 0 rgba(12,12,13,.4);
+  }
+  .service-card img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
+  .service-card__overlay{position:absolute; inset:0; background:linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(153,153,153,0) 100%);}
+  .service-card__title{
+    position:relative; z-index:1; font-family:'Roboto',sans-serif; font-weight:600; font-size:20px;
+    line-height:1.06; text-transform:uppercase; color:#000; text-align:center;
+  }
+  .cards-overlay .btn{background:var(--teal); color:#fff;}
+
+  /* ---------- HOW WE WORK ---------- */
+  .how-we-work{padding-left:198px; display:flex; flex-direction:column; gap:64px; margin-top:128px;}
+  .how-we-work__grid{display:flex; flex-direction:column; gap:20px; width:1047px;}
+  .how-we-work__row{display:flex; gap:20px; align-items:center; width:100%;}
+  .step-card{
+    width:335px; height:221px; display:flex; flex-direction:column; gap:110px;
+    border-bottom:1px solid var(--teal);
+    filter:drop-shadow(0 1px 1px rgba(0,0,0,.3)) drop-shadow(0 1px 1.5px rgba(0,0,0,.15));
+  }
+  /* Step 01 card is uniquely centered with a 131px gap (vs 110px on cards 02-05) per Figma spec */
+  .step-card--01{gap:131px; align-items:center;}
+  .step-card__title-row{
+    display:flex; align-items:center; justify-content:space-between; width:100%;
+    font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; line-height:1.06; text-transform:uppercase;
+  }
+  .step-card__title-row span.num{font-family:'Roboto',sans-serif; font-weight:600; color:var(--teal);}
+  .step-card__title-row span.title{color:var(--near-black);}
+  .step-card__desc{font-family:'Roboto',sans-serif; font-weight:400; font-size:16px; line-height:1.36; color:rgba(0,0,0,.8);}
+  .step-image{
+    width:337px; height:221px; object-fit:cover;
+    box-shadow:0 8px 12px 6px rgba(0,0,0,.15), 0 4px 4px 0 rgba(0,0,0,.3);
+    border-radius:4px;
+  }
+
+  /* ---------- ADVANTAGES ---------- */
+  .advantages{background:var(--teal); padding-left:198px; padding-top:20px; display:flex; flex-direction:column; margin-top:128px;}
+  .advantages__block{display:flex; flex-direction:column; gap:64px; width:1240px;}
+  .advantages__heading{display:flex; flex-direction:column; gap:20px;}
+  .advantages__row{display:flex; align-items:flex-start; justify-content:space-between; width:1046px;}
+  .advantage{display:flex; flex-direction:column; gap:20px; align-items:center;}
+  .advantage img{width:100px; height:100px; object-fit:cover;}
+  .advantage__label{
+    border-top:.5px solid var(--steel); width:100%; padding:20px 10px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Montserrat',sans-serif; font-size:16px; color:#fff; text-align:center; text-transform:uppercase;
+  }
+
+  /* ---------- DOCUMENTS ---------- */
+  .documents{padding-left:198px; display:flex; flex-direction:column; gap:64px; width:1440px; margin-top:128px;}
+  .documents__intro{display:flex; flex-direction:column; gap:36px; width:438px;}
+  .documents__intro-text{display:flex; flex-direction:column; gap:20px; width:378px;}
+  .documents__desc{font-family:'Roboto',sans-serif; font-size:16px; color:#000; line-height:1.36;}
+  .documents__grid{display:flex; flex-direction:column; gap:20px; align-items:center; width:100%;}
+  .documents__row{display:flex; align-items:center; width:100%;}
+  .doc-item{display:flex; gap:20px; align-items:flex-end; padding:20px 0; border-bottom:1px solid var(--teal);}
+  .doc-item img{width:157px; height:100px; object-fit:contain;}
+  .doc-item__text{display:flex; flex-direction:column; gap:36px; width:260px; color:#000;}
+  .doc-item__title{font-family:'Roboto',sans-serif; font-weight:500; font-size:20px;}
+  .doc-item__sub{font-family:'Roboto',sans-serif; font-weight:400; font-size:16px; line-height:1.36;}
+
+  /* ---------- FAQ ---------- */
+  .faq{
+    position:relative;
+    width:1440px; height:888px; padding:128px 0; display:flex; flex-direction:column; gap:64px;
+    align-items:center; justify-content:center; overflow:hidden;
+    margin-top:128px;
+  }
+  .faq__bg{position:absolute; inset:0; z-index:0;}
+  .faq__bg img{width:100%; height:100%; object-fit:cover;}
+  .faq__bg::after{content:""; position:absolute; inset:0; background:linear-gradient(181deg, #fff 10.8%, rgba(102,102,102,0) 98%);}
+  .faq__title{position:relative; z-index:1; font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; text-align:center; color:#000;}
+  .faq__list{position:relative; z-index:1; display:flex; flex-direction:column; gap:20px; align-items:center; width:1440px;}
+  .faq-item{
+    width:636px; background:#fff; border-bottom:1px solid var(--teal); border-radius:12px;
+    padding:20px; display:flex; flex-direction:column; gap:0;
+    box-shadow:0 16px 16px 0 rgba(12,12,13,.4);
+    backdrop-filter:blur(2px);
+    transition: box-shadow .25s ease;
+  }
+  .faq-item__row{display:flex; align-items:center; justify-content:space-between; width:100%; cursor:pointer;}
+  .faq-item__question{font-family:'Roboto',sans-serif; font-weight:500; font-size:20px; color:#000;}
+  .faq-item__answer{
+    font-family:'Roboto',sans-serif; font-weight:400; font-size:16px; line-height:1.36; color:rgba(0,0,0,.8);
+    max-height:0; opacity:0; overflow:hidden; margin-top:0;
+    transition: max-height .35s ease, opacity .3s ease, margin-top .35s ease;
+  }
+  .faq-item.is-open .faq-item__answer{max-height:220px; opacity:1; margin-top:20px;}
+  .faq-item__arrow{width:24.97px; height:24px; transform:rotate(90deg); flex-shrink:0; transition: transform .3s ease;}
+  .faq-item.is-open .faq-item__arrow{transform:rotate(-90deg);}
+
+  /* ---------- CONTACT ---------- */
+  .contact{display:flex; gap:4px; align-items:center; padding-left:198px; width:1440px;}
+  .contact__info{
+    width:518px; height:538px; display:flex; flex-direction:column; gap:48px; align-items:flex-start; justify-content:flex-start; padding:20px 0;
+  }
+  .contact__heading-block{display:flex; flex-direction:column; gap:24px; width:100%;}
+  .contact__heading-wrapper{display:flex; flex-direction:column; gap:20px;}
+  .contact__title{font-family:'Montserrat',sans-serif; font-weight:600; font-size:36px; line-height:1.06; color:var(--near-black);}
+  .contact__subtext{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(0,0,0,.8);}
+  .contact__list{display:flex; flex-direction:column; gap:20px; width:437px;}
+  .contact__item{display:flex; flex-direction:column; gap:10px;}
+  .contact__label{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(0,0,0,.8); line-height:1.36;}
+  .contact__value{font-family:'Roboto',sans-serif; font-weight:500; font-size:20px; color:var(--near-black);}
+  .contact__map{
+    width:720px; height:689px; display:flex; align-items:center; justify-content:center;
+    padding:201px 156px 114px 156px;
+    background:var(--teal);
+  }
+  .contact__form{display:flex; flex-direction:column; gap:24px; width:338px;}
+  .contact__fields{display:flex; flex-direction:column; gap:20px; align-items:flex-end; width:100%;}
+  .field{
+    width:100%; border-bottom:1px solid #fff; padding:10px 0; display:flex; align-items:flex-start;
+    font-family:'Montserrat',sans-serif; font-size:16px; color:#fff;
+  }
+  .field--muted{color:rgba(255,255,255,.5); font-family:'Roboto',sans-serif;}
+  .contact__submit-block{display:flex; flex-direction:column; gap:12px; width:100%;}
+  .contact__submit{
+    background:#fff; color:var(--teal); border-radius:16px; padding:16px 30px;
+    display:flex; align-items:center; justify-content:center; font-family:'Roboto',sans-serif; font-size:16px;
+    box-shadow:0 8px 6px rgba(0,0,0,.15), 0 4px 2px rgba(0,0,0,.3);
+    cursor:pointer;
+  }
+  .contact__consent{display:flex; gap:7px; align-items:center;}
+  .contact__consent img{width:20px; height:20px;}
+  .contact__consent p{
+    font-family:'Roboto',sans-serif; font-weight:300; font-size:10px; letter-spacing:-.1px;
+    color:rgba(255,255,255,.6); text-transform:lowercase; white-space:nowrap;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .footer{
+    background:var(--teal); width:1440px; height:606px; padding:128px 193px 0 198px;
+    display:flex; flex-direction:column; gap:64px; align-items:flex-end;
+  }
+  .footer__top{display:flex; align-items:flex-start; justify-content:space-between; width:100%;}
+  .footer__brand{display:flex; flex-direction:column; gap:20px; width:225px;}
+  .footer__logo{display:flex; gap:6px; align-items:center; width:191px; flex-shrink:0;}
+  .footer__logo img{display:block;}
+  .footer__logo img:first-child{width:40px; height:40px; object-fit:contain;}
+  .footer__tagline{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.364; letter-spacing:1.12px; color:#fff;}
+  .footer__cols{display:flex; align-items:flex-start; justify-content:space-between; width:628px;}
+  .footer__col{display:flex; flex-direction:column; gap:24px;}
+  .footer__col-title{font-family:'Roboto',sans-serif; font-size:16px; color:#fff;}
+  .footer__nav{display:flex; flex-direction:column; gap:20px;}
+  .footer__nav a{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6);}
+  .footer__legal{display:flex; flex-direction:column; gap:20px; color:rgba(255,255,255,.6); font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .footer__legal-title{color:#fff;}
+  .footer__address-block{display:flex; flex-direction:column; gap:8px;}
+  .footer__address-label{color:rgba(255,255,255,.8); font-family:'Roboto',sans-serif; font-size:16px;}
+  .footer__address{color:rgba(255,255,255,.6); font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36;}
+  .footer__bottom{
+    border-top:.5px solid rgba(255,255,255,.6); width:1099px; padding:20px 0;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .footer__copy{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6);}
+  .footer__bottom-links{display:flex; gap:67px; align-items:center;}
+  .footer__bottom-links a{font-family:'Roboto',sans-serif; font-size:16px; color:rgba(255,255,255,.6); border-bottom:1px solid rgba(255,255,255,.6);}
+
+  /* ---------- REQUEST MODAL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(12,12,13,.55);
+    align-items:center; justify-content:center; z-index:1000; padding:20px;
+  }
+  .modal-overlay.is-open{display:flex;}
+  .modal-request{
+    position:relative; width:692px; max-width:100%; min-height:560px; background:var(--teal); border-radius:20px;
+    padding:40px 48px; box-shadow:0 16px 32px rgba(12,12,13,.4); color:#fff;
+    max-height:90vh; overflow-y:auto; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .modal-close{
+    position:absolute; top:24px; right:24px; width:28px; height:28px; border:none; background:transparent;
+    color:#fff; font-size:22px; line-height:1; cursor:pointer; opacity:.8;
+  }
+  .modal-close:hover{opacity:1;}
+  .modal-title{font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px;}
+  .modal-subtitle{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(255,255,255,.8); margin-bottom:28px;}
+  .modal-row{display:flex; gap:40px; margin-bottom:24px;}
+  .modal-field{flex:1; display:flex; flex-direction:column; gap:10px;}
+  .modal-field--full{margin-bottom:20px;}
+  .modal-field label{font-family:'Roboto',sans-serif; font-size:14px; color:rgba(255,255,255,.7);}
+  .modal-field input, .modal-field textarea{
+    background:transparent; border:none; border-bottom:1px solid rgba(255,255,255,.5);
+    color:#fff; font-family:'Roboto',sans-serif; font-size:16px; padding:6px 0; outline:none; resize:none;
+  }
+  .modal-field textarea{min-height:70px;}
+  .modal-field input::placeholder, .modal-field textarea::placeholder{color:rgba(255,255,255,.45);}
+  .modal-field input:focus, .modal-field textarea:focus{border-bottom-color:#fff;}
+  .modal-footer{display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:24px; margin-top:8px;}
+  .modal-checkbox{display:flex; align-items:flex-start; gap:8px; font-family:'Roboto',sans-serif; font-size:12px; line-height:1.4; color:rgba(255,255,255,.6); cursor:pointer; flex:1;}
+  .modal-checkbox input{margin-top:2px; flex-shrink:0;}
+  .modal-submit{
+    flex-shrink:0; align-self:center; background:#fff; color:var(--teal); border:none; border-radius:16px;
+    padding:16px 34px; font-family:'Roboto',sans-serif; font-size:16px; cursor:pointer; white-space:nowrap;
+    box-shadow:0 8px 6px rgba(0,0,0,.15), 0 4px 2px rgba(0,0,0,.3);
+  }
+  .modal-submit:hover{opacity:.92;}
+
+  .modal-success{
+    width:692px; max-width:100%; min-height:560px; background:var(--teal); border-radius:20px; padding:56px 40px; text-align:center; color:#fff;
+    box-shadow:0 16px 32px rgba(12,12,13,.4); box-sizing:border-box;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .modal-success__icon{
+    width:64px; height:64px; border-radius:50%; background:#3fb27f; color:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 24px;
+  }
+  .modal-success h3{font-family:'Montserrat',sans-serif; font-weight:600; font-size:20px; text-transform:uppercase; letter-spacing:.5px; margin-bottom:12px;}
+  .modal-success p{font-family:'Roboto',sans-serif; font-size:16px; line-height:1.36; color:rgba(255,255,255,.8); margin-bottom:28px;}
+  .modal-success__btn{
+    background:#fff; border:none; color:var(--teal); border-radius:16px; padding:14px 34px;
+    font-family:'Roboto',sans-serif; font-size:16px; cursor:pointer;
+    box-shadow:0 8px 6px rgba(0,0,0,.15), 0 4px 2px rgba(0,0,0,.3);
+  }
+  .modal-success__btn:hover{opacity:.92;}
+
+  @media (max-width:640px){
+    .modal-row{flex-direction:column; gap:16px;}
+  }
+
+
+  /* ---------- BUTTON INTERACTION STATES ---------- */
+  .btn, .btn-primary, .service-card__btn, .port-card__btn,
+  .btn, .btn--primary, .btn-primary, .service-card__btn, .port-card__btn,
+  .contact__submit, .modal-submit {
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    border:1px solid transparent;
+    cursor:pointer;
+  }
+  .btn--outline, .btn-outline {
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, box-shadow .18s ease;
+    cursor:pointer;
+  }
+
+  .btn--primary:hover, .btn-primary:hover, .service-card__btn:hover, .port-card__btn:hover,
+  .contact__submit:hover, .modal-submit:hover {
+    background:#fff;
+    color:var(--teal);
+    border-color:var(--teal);
+    box-shadow:0 4px 10px rgba(12,12,13,.15);
+  }
+
+  .btn--primary:active, .btn-primary:active, .service-card__btn:active, .port-card__btn:active,
+  .contact__submit:active, .modal-submit:active {
+    background:#fff;
+    color:rgba(59,108,122,.4);
+    border-color:rgba(59,108,122,.3);
+    box-shadow:none;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===================== SERVICE CARDS OVERLAY (abs. left:121 top:1819) ===================== -->
+  <div class="cards-overlay">
+    <div class="cards-overlay__row">
+      <div class="service-card">
+        <img src="https://www.figma.com/api/mcp/asset/66b5412d-b186-4cf7-9511-a7ff665638b6" alt="Международные перевозки">
+        <div class="service-card__overlay"></div>
+        <p class="service-card__title">Международные перевозки</p>
+      </div>
+      <div class="service-card">
+        <img src="https://www.figma.com/api/mcp/asset/68f4dc67-cc21-4642-86d5-58aeb4ed616d" alt="Таможенное оформление">
+        <div class="service-card__overlay"></div>
+        <p class="service-card__title">Таможенное оформление</p>
+      </div>
+      <div class="service-card">
+        <img src="https://www.figma.com/api/mcp/asset/c87f28d4-2b81-439d-a1b1-5fab5f223a1c" alt="Сертификация">
+        <div class="service-card__overlay"></div>
+        <p class="service-card__title">Сертификация</p>
+      </div>
+    </div>
+    <a href="02-services.html" class="btn btn--primary">Смотреть все</a>
+  </div>
+
+  <!-- ===================== HERO + NAVBAR ===================== -->
+  <div class="hero">
+    <video class="hero__video" autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+      <source src="assets/hero-bg.mp4" type="video/mp4">
+    </video>
+    <div class="hero__video-overlay"></div>
+    <div class="hero__content">
+      <div class="navbar">
+        <div class="navbar__inner">
+          <a href="index.html" class="navbar__logo">
+            <img src="https://www.figma.com/api/mcp/asset/cc12829d-daf4-4822-bbe5-3631208f688c" alt="Меридиан">
+            <img src="https://www.figma.com/api/mcp/asset/6a86363c-912e-4743-b890-5f3ea4541a27" alt="Меридиан" style="height:22.235px;width:141px;">
+          </a>
+          <div class="navbar__right">
+            <div class="navbar__links">
+              <a href="index.html" class="is-muted capitalize">главная</a>
+              <a href="02-services.html" class="capitalize">услуги</a>
+              <a href="03-ports-geography.html" class="capitalize">география</a>
+              <a href="04-about-metrics.html" class="capitalize">преимущества</a>
+              <a href="05-cases.html" class="capitalize">кейсы</a>
+              <a href="06-contacts.html" class="capitalize">контакты</a>
+            </div>
+            <a class="navbar__phone" href="tel:+78126158816">+7 (812) 615-88-16</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero__text-block">
+        <div class="hero__heading-subtext">
+          <p class="hero__heading"><span class="l1">Портовая логистика под&nbsp;ключ</span><br><span class="l2">Ваш груз под контролем<br>на каждом этапе</span></p>
+          <p class="hero__subtext">Лицензированный таможенный представитель и экспедитор полного цикла. Берем на себя все этапы международной логистики и таможенного оформления</p>
+        </div>
+        <div class="hero__cta">
+          <a href="06-contacts.html" class="btn btn--primary" data-open-modal>Оставить заявку</a>
+          <a href="05-cases.html" class="btn btn--outline">Смотреть кейсы</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== COMPANY ===================== -->
+  <div class="company">
+    <div class="company__intro">
+      <p class="section-eyebrow">о компании</p>
+      <p class="section-heading company__heading">Более 10 лет обеспечиваем полный комплекс услуг по внешнеэкономической деятельности для бизнеса любого масштаба</p>
+    </div>
+    <div class="company__row">
+      <ul class="company__services">
+        <li>Мультимодальные перевозки</li>
+        <li>Внутрипортовое экспедирование</li>
+        <li>Таможенная очистка</li>
+        <li>ВЭД-сопровождение под ключ</li>
+      </ul>
+      <div class="company__image-block">
+        <img class="img-big" src="https://www.figma.com/api/mcp/asset/d225eb05-6285-444e-8cd9-8901f8fa491a" alt="">
+        <img class="img-small" src="https://www.figma.com/api/mcp/asset/26f558dd-c269-4b98-bfc4-91ba3dfddd47" alt="">
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SERVICES INTRO ===================== -->
+  <div class="services-intro">
+    <div class="services-intro__block">
+      <div class="services-intro__text">
+        <p class="section-eyebrow">услуги</p>
+        <p class="section-heading">Полный комплекс услуг ВЭД<br>под одной ответственностью</p>
+      </div>
+      <p class="services-intro__subtext">От подбора маршрута до выпуска декларации — каждый этап ведут собственные специалисты</p>
+    </div>
+  </div>
+
+  <!-- ===================== HOW WE WORK ===================== -->
+  <div class="how-we-work">
+    <div class="section-heading__group">
+      <p class="section-eyebrow">как мы работаем</p>
+      <p class="section-heading" style="margin-top:20px;">Пять понятных шагов<br>- без скрытых этапов</p>
+    </div>
+    <div class="how-we-work__grid">
+      <div class="how-we-work__row">
+        <img class="step-image" src="https://www.figma.com/api/mcp/asset/af2bb0f4-f8f5-4bab-9d5f-10dc4276c975" alt="">
+        <div style="display:flex; gap:20px;">
+          <div class="step-card step-card--01">
+            <div class="step-card__title-row"><span class="title">Заявка<br>и вводные</span><span class="num">01</span></div>
+            <p class="step-card__desc">Уточняем груз, маршрут и сроки</p>
+          </div>
+          <div class="step-card">
+            <div class="step-card__title-row"><span class="title">Расчёт стоимости<br>и сроков</span><span class="num">02</span></div>
+            <p class="step-card__desc">Фиксируем условия в коммерческом предложении</p>
+          </div>
+        </div>
+      </div>
+      <div class="how-we-work__row">
+        <div class="step-card">
+          <div class="step-card__title-row"><span class="title">Документы<br>и классификация</span><span class="num">03</span></div>
+          <p class="step-card__desc">Подбираем коды ТН ВЭД, готовим пакет документов</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card__title-row"><span class="title">Оформление<br>и перевозка</span><span class="num">04</span></div>
+          <p class="step-card__desc">Таможенная очистка и доставка по маршруту</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card__title-row"><span class="title">Доставка<br>и отчётность</span><span class="num">05</span></div>
+          <p class="step-card__desc">Груз на складе клиента, закрывающие документы</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== ADVANTAGES ===================== -->
+  <div class="advantages">
+    <div class="advantages__block">
+      <div class="advantages__heading">
+        <p class="section-eyebrow section-eyebrow--light">преимущества и гарантии</p>
+        <p class="section-heading section-heading--white">Условия, которые мы фиксируем<br>в договоре</p>
+      </div>
+      <div class="advantages__row">
+        <div class="advantage" style="width:174px;">
+          <img src="https://www.figma.com/api/mcp/asset/d230e218-7478-48d7-8191-c2a98279b679" style="opacity:.7;" alt="">
+          <div class="advantage__label">Фиксированная<br>стоимость</div>
+        </div>
+        <div class="advantage" style="width:120px;">
+          <img src="https://www.figma.com/api/mcp/asset/2350a0d0-388d-45d3-a9c7-de2d84982c54" style="opacity:.8;" alt="">
+          <div class="advantage__label">Менеджер<br>24/7</div>
+        </div>
+        <div class="advantage" style="width:158px;">
+          <img src="https://www.figma.com/api/mcp/asset/92cb3fa0-4d32-48c2-b12b-c55268bff503" style="opacity:.7;" alt="">
+          <div class="advantage__label">Отслеживание<br>груза</div>
+        </div>
+        <div class="advantage" style="width:153px;">
+          <img src="https://www.figma.com/api/mcp/asset/8269b97f-0fea-4d88-848b-375d20148986" style="opacity:.8;" alt="">
+          <div class="advantage__label">Юридическая<br>поддержка</div>
+        </div>
+        <div class="advantage" style="width:141px;">
+          <img src="https://www.figma.com/api/mcp/asset/1a06e14c-9fe1-4027-8426-84274c293afd" style="opacity:.7;" alt="">
+          <div class="advantage__label">Страхование</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DOCUMENTS ===================== -->
+  <div class="documents">
+    <div class="documents__intro">
+      <div class="documents__intro-text">
+        <p class="section-eyebrow">документы и лицензии</p>
+        <p class="section-heading" style="color:#000;">Закрываем вопрос надёжности<br>фактами</p>
+      </div>
+      <p class="documents__desc">Реквизиты, лицензии и типовые договоры<br>- предоставляем по запросу для проверки контрагента</p>
+    </div>
+    <div class="documents__grid">
+      <div class="documents__row" style="gap:92px;">
+        <div class="doc-item">
+          <img src="https://www.figma.com/api/mcp/asset/214a3d1b-ba3a-47f0-8589-eebf10638d69" alt="">
+          <div class="doc-item__text">
+            <p class="doc-item__title">Лицензия таможенного<br>представителя ФТС РФ</p>
+            <p class="doc-item__sub">№ 2103 от «19» мая 2026 года</p>
+          </div>
+        </div>
+        <div class="doc-item" style="width:525px;">
+          <img src="https://www.figma.com/api/mcp/asset/214a3d1b-ba3a-47f0-8589-eebf10638d69" alt="">
+          <div class="doc-item__text">
+            <p class="doc-item__title">Лицензия экспедитора<br>в ГосЛоге</p>
+            <p class="doc-item__sub">№ GL-B044-00112-00/00017199 от 11.05.2026 г</p>
+          </div>
+        </div>
+      </div>
+      <div class="documents__row" style="gap:95px;">
+        <div class="doc-item" style="border-bottom:none;">
+          <img src="https://www.figma.com/api/mcp/asset/9eec1a70-1ac3-4d23-b210-137546b77492" alt="">
+          <div class="doc-item__text">
+            <p class="doc-item__title">Типовой договор<br>экспедирования</p>
+            <p class="doc-item__sub">Высылаем на e-mail по запросу</p>
+          </div>
+        </div>
+        <div class="doc-item" style="border-bottom:none;">
+          <img src="https://www.figma.com/api/mcp/asset/09c82606-136f-4423-a49f-25a4d02d8e65" alt="">
+          <div class="doc-item__text">
+            <p class="doc-item__title">Публичная<br>оферта</p>
+            <p class="doc-item__sub">Условия оказания услуг</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FAQ ===================== -->
+  <div class="faq">
+    <div class="faq__bg">
+      <img src="https://www.figma.com/api/mcp/asset/604fde04-27ef-4d11-b1ba-18e7442d9e48" alt="">
+    </div>
+    <p class="faq__title">Частые вопросы</p>
+    <div class="faq__list">
+      <div class="faq-item is-open">
+        <div class="faq-item__row">
+          <p class="faq-item__question">Сколько стоит доставка из Китая?</p>
+          <img class="faq-item__arrow" src="https://www.figma.com/api/mcp/asset/2eef9e83-917e-4227-80d6-259300303ab0" alt="">
+        </div>
+        <p class="faq-item__answer">Зависит от вида транспорта, объёма и кода ТН ВЭД<br>Присылаем точный расчёт по заявке — обычно в течение рабочего дня</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__row">
+          <p class="faq-item__question">Как долго проходит таможенное оформление?</p>
+          <img class="faq-item__arrow" src="https://www.figma.com/api/mcp/asset/26cc6ecd-b96f-4b6d-8af6-bf1ae5ff1407" alt="">
+        </div>
+        <p class="faq-item__answer">В среднем — от нескольких часов до 1–2 рабочих дней при корректно подготовленном пакете документов<br>Точный срок называем на этапе расчёта по вашему грузу</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__row">
+          <p class="faq-item__question">Что делать, если груз задержали на таможне?</p>
+          <img class="faq-item__arrow" src="https://www.figma.com/api/mcp/asset/26cc6ecd-b96f-4b6d-8af6-bf1ae5ff1407" alt="">
+        </div>
+        <p class="faq-item__answer">Выясняем причину — донос документов, дополнительный досмотр или проверка кода ТН ВЭД — и сопровождаем груз до выпуска<br>Регулярно сообщаем о статусе</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__row">
+          <p class="faq-item__question" style="width:360px;">Как рассчитывается стоимость?</p>
+          <img class="faq-item__arrow" src="https://www.figma.com/api/mcp/asset/26cc6ecd-b96f-4b6d-8af6-bf1ae5ff1407" alt="">
+        </div>
+        <p class="faq-item__answer">Складывается из транспортировки, таможенных платежей и наших услуг по оформлению<br>Присылаем детальную смету после уточнения параметров груза и маршрута</p>
+      </div>
+      <div class="faq-item">
+        <div class="faq-item__row">
+          <p class="faq-item__question">Какие документы нужны для импорта?</p>
+          <img class="faq-item__arrow" src="https://www.figma.com/api/mcp/asset/26cc6ecd-b96f-4b6d-8af6-bf1ae5ff1407" alt="">
+        </div>
+        <p class="faq-item__answer">Базовый пакет: внешнеторговый контракт, инвойс, упаковочный лист и транспортные документы<br>Полный список уточняем индивидуально под категорию товара</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== CONTACT ===================== -->
+  <div class="contact">
+    <div class="contact__info">
+      <div class="contact__heading-block">
+        <div class="contact__heading-wrapper">
+          <p class="section-eyebrow">КОНТАКТЫ</p>
+          <p class="contact__title">Свяжитесь с нами</p>
+        </div>
+        <p class="contact__subtext">Оставьте заявку — уточним детали и пришлём предложение по стоимости и срокам</p>
+      </div>
+      <div class="contact__list">
+        <div class="contact__item">
+          <p class="contact__label">Телефон</p>
+          <p class="contact__value">+7 (812) 615-88-16</p>
+        </div>
+        <div class="contact__item">
+          <p class="contact__label">Email</p>
+          <p class="contact__value">info@mrdn.spb.ru</p>
+        </div>
+        <div class="contact__item">
+          <p class="contact__label">Часы работы</p>
+          <p class="contact__value">Пн-Пт  09:00 - 18:00 (GMT +3)</p>
+        </div>
+        <div class="contact__item">
+          <p class="contact__label">Офис</p>
+          <p class="contact__value">198097, г. Санкт-Петербург, ул. Возрождения, дом 4, корпус 2, литера А, офис 401</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact__map">
+      <div class="contact__form">
+        <div class="contact__fields">
+          <div class="field">Компания</div>
+          <div class="field">Телефон</div>
+          <div class="field">Email</div>
+          <div class="field field--muted">Комментарий - тип груза, маршрут, объем</div>
+        </div>
+        <div class="contact__submit-block">
+          <div class="contact__submit" id="pageFormSubmit">Отправить заявку</div>
+          <div class="contact__consent">
+            <img src="https://www.figma.com/api/mcp/asset/2cb96374-c107-4b2b-9604-3bdbdc529896" alt="">
+            <p>Нажимая кнопку, вы соглашаетесь с политикой<br>конфиденциальности</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <div class="footer">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="index.html" class="footer__logo">
+          <img src="https://www.figma.com/api/mcp/asset/cc12829d-daf4-4822-bbe5-3631208f688c" alt="Меридиан">
+          <img src="https://www.figma.com/api/mcp/asset/6a86363c-912e-4743-b890-5f3ea4541a27" alt="Меридиан" style="height:22.235px;width:141px;">
+        </a>
+        <p class="footer__tagline">Мультимодальные перевозки,<br>внутрипортовое экспедирование<br>и таможенная очистка грузов</p>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Меридиан</p>
+        <div class="footer__nav">
+          <a href="04-about-metrics.html">О компании</a>
+          <a href="02-services.html">Услуги</a>
+          <a href="05-cases.html">Кейсы</a>
+          <a href="index.html">Документы</a>
+          <a href="06-contacts.html">Контакты</a>
+        </div>
+      </div>
+
+      <div class="footer__col" style="width:200px;">
+        <div class="footer__legal">
+          <p class="footer__legal-title">Реквизиты</p>
+          <div style="display:flex;flex-direction:column;gap:20px;">
+            <p>ИНН 7806179910</p>
+            <p>ОГРН 1157847220376</p>
+            <p>КПП 200401001</p>
+          </div>
+        </div>
+        <div class="footer__address-block">
+          <p class="footer__address-label">Юридический адрес:</p>
+          <p class="footer__address">366017, Чеченская Республика, м.р-н Грозненский с.п.Терское, с. Терское, ул. Подгорная, двлд. 35</p>
+        </div>
+      </div>
+
+      <div class="footer__col" style="width:155px;">
+        <p class="footer__col-title">Связаться</p>
+        <div class="footer__nav">
+          <a href="tel:+78126158816">+7 (812) 615-88-16</a>
+          <a href="mailto:info@mrdn.spb.ru">info@mrdn.spb.ru</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2026 ООО «Меридиан». Все права защищены</p>
+      <div class="footer__bottom-links">
+        <a>Политика конфинденциальности</a>
+        <a>Публичная оферта</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <!-- ===================== REQUEST MODAL ===================== -->
+  <div class="modal-overlay" id="requestModalOverlay">
+    <div class="modal-request">
+      <button type="button" class="modal-close" id="requestModalClose" aria-label="Закрыть">&times;</button>
+      <p class="modal-title">Оставьте заявку</p>
+      <p class="modal-subtitle">Уточним детали и пришлём предложение по стоимости и срокам</p>
+      <form id="requestForm">
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="reqCompany">Компания</label>
+            <input id="reqCompany" type="text" placeholder='ООО &quot;Ваша компания&quot;'>
+          </div>
+          <div class="modal-field">
+            <label for="reqName">Имя</label>
+            <input id="reqName" type="text" placeholder="Иван Петров">
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="reqPhone">Телефон</label>
+            <input id="reqPhone" type="tel" placeholder="+7 (___) ___-__-__">
+          </div>
+          <div class="modal-field">
+            <label for="reqEmail">Почта</label>
+            <input id="reqEmail" type="email" placeholder="name@company.ru">
+          </div>
+        </div>
+        <div class="modal-field modal-field--full">
+          <label for="reqComment">Комментарий - тип груза, маршрут, объём</label>
+          <textarea id="reqComment" rows="3"></textarea>
+        </div>
+        <div class="modal-footer">
+          <label class="modal-checkbox">
+            <input type="checkbox" required>
+            Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+          </label>
+          <button type="submit" class="modal-submit">Оставить заявку</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== SUCCESS MODAL ===================== -->
+  <div class="modal-overlay" id="successModalOverlay">
+    <div class="modal-success">
+      <div class="modal-success__icon">&#10003;</div>
+      <h3>Заявка отправлена</h3>
+      <p>Мы получили вашу заявку и свяжемся с вами</p>
+      <button type="button" class="modal-success__btn" id="successModalClose">Понятно</button>
+    </div>
+  </div>
+
+
+  <script>
+    (function(){
+      var requestOverlay = document.getElementById('requestModalOverlay');
+      var successOverlay = document.getElementById('successModalOverlay');
+      var form = document.getElementById('requestForm');
+
+      function openRequest(e){
+        if(e) e.preventDefault();
+        requestOverlay.classList.add('is-open');
+      }
+      function closeRequest(){ requestOverlay.classList.remove('is-open'); }
+      function openSuccess(){ successOverlay.classList.add('is-open'); }
+      function closeSuccess(){ successOverlay.classList.remove('is-open'); }
+
+      document.querySelectorAll('[data-open-modal]').forEach(function(el){
+        el.addEventListener('click', openRequest);
+      });
+
+      document.getElementById('requestModalClose').addEventListener('click', closeRequest);
+      document.getElementById('successModalClose').addEventListener('click', closeSuccess);
+
+      var pageForm = document.getElementById('pageFormSubmit');
+      if(pageForm){
+        pageForm.addEventListener('click', function(){ openSuccess(); });
+      }
+
+      [requestOverlay, successOverlay].forEach(function(overlay){
+        overlay.addEventListener('click', function(e){
+          if(e.target === overlay){ overlay.classList.remove('is-open'); }
+        });
+      });
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        closeRequest();
+        form.reset();
+        openSuccess();
+      });
+
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape'){ closeRequest(); closeSuccess(); }
+      });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var items = document.querySelectorAll('.faq-item');
+      items.forEach(function(item){
+        var row = item.querySelector('.faq-item__row');
+        row.addEventListener('click', function(){
+          var wasOpen = item.classList.contains('is-open');
+          items.forEach(function(other){ other.classList.remove('is-open'); });
+          if(!wasOpen){ item.classList.add('is-open'); }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>
